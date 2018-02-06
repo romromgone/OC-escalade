@@ -10,7 +10,8 @@ import com.ocp3.beans.Utilisateur;
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
     private static final String SQL_INSERT = "INSERT INTO utilisateur (nomuser, prenomuser, mail, mdp, codepostaluser) VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_SELECT_PAR_EMAIL = "SELECT iduser, nomuser, prenomuser, mail, mdp, codepostaluser FROM utilisateur WHERE mail = ?";
+    private static final String SQL_SELECT_PAR_EMAIL = "SELECT * FROM utilisateur WHERE mail = ?";
+    private static final String SQL_SELECT_PAR_ID = "SELECT * FROM utilisateur WHERE iduser = ?";
     private DaoFactory daoFactory;
 
     UtilisateurDaoImpl(DaoFactory daoFactory) {
@@ -53,6 +54,12 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
     @Override
     public Utilisateur trouver( String email ) throws DaoException {
         return trouver( SQL_SELECT_PAR_EMAIL, email );
+    }
+    
+    /* Implémentation de la méthode définie dans l'interface UtilisateurDao */
+    @Override
+    public Utilisateur trouver( Long idUser ) throws DaoException {
+        return trouver( SQL_SELECT_PAR_ID, idUser );
     }
     
     /* Implémentation de la méthode définie dans l'interface UtilisateurDao */
@@ -118,7 +125,6 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
         }
         return utilisateur;
     }
-
   
     /*
      * Simple méthode utilitaire permettant de faire la correspondance (le

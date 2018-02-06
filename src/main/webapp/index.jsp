@@ -7,6 +7,7 @@
     <title>Escalade Communautaire</title>
 
     <link rel="stylesheet" href="webjars/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link href="resources/css/accueil.css" rel="stylesheet">
   </head>
 
@@ -26,12 +27,6 @@
 	  <script src="webjars/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 	  <script src="webjars/jquery-validation/1.17.0/jquery.validate.min.js"></script>
 	  <script src="webjars/jquery-validation/1.17.0/additional-methods.min.js"></script>
-    <script src="https://use.fontawesome.com/c448120b09.js"></script>
-    <script>
-			$(btnUser).mouseover(function() {
-			  $(this).dropdown('toggle');
-			});
-		</script>
     
   </body>
 </html>

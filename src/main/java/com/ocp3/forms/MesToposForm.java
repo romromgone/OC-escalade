@@ -147,12 +147,9 @@ public class MesToposForm {
         }
     }
     
-    private void validationDescription( String description ) throws FormValidationException {
-        if ( description != null && description.length() < 50 ) {
-            throw new FormValidationException( "Min 50 caractères." );
-        }
+    private void validationDescription( String description ) throws FormValidationException {        
         if ( description == null ) {
-        	throw new FormValidationException( "Merci de saisir une description de ce topo (min 50 caractères)." );
+        	throw new FormValidationException( "Merci de saisir une description de ce topo (ou NC)." );
         }
     }
     

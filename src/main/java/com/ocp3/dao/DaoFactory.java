@@ -38,5 +38,10 @@ public class DaoFactory {
     public TopoDao getTopoDao() {
         return new TopoDaoImpl(this);
     }
-
+    public ReservationDao getReservationDao() {
+        return new ReservationDaoImpl(this);
+    }
+    public CommentaireTopoDao getCommentaireTopoDao() {
+        return new CommentaireTopoDaoImpl(this);
+    }
 }

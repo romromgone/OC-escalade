@@ -1,6 +1,6 @@
 package com.ocp3.beans;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Reservation {
 	private Date dateDeb;
