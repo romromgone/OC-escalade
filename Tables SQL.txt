@@ -1,0 +1,103 @@
+CREATE TABLE utilisateur (
+	iduser serial PRIMARY KEY,
+    	nomuser varchar(30) NOT NULL,
+    	prenomuser varchar(20) NOT NULL,
+    	mail varchar(50) NOT NULL,
+	codepostaluser varchar(5) NOT NULL,
+    	mdp varchar(56) NOT NULL
+);
+
+CREATE TABLE topo (
+	idtopo          serial PRIMARY KEY,
+	titre           varchar(50) NOT NULL,
+	auteur          varchar(50) NOT NULL,
+	anneeedition    varchar(4) NOT NULL,
+	departement	varchar(2) NOT NULL,
+	descriptiontopo text NOT NULL,
+	iduser          integer NOT NULL REFERENCES utilisateur (iduser)
+);
+
+CREATE TABLE reservation (
+	datedeb  date NOT NULL,
+	datefin  date NOT NULL,
+	iduser   integer NOT NULL REFERENCES utilisateur (iduser),
+	idtopo   integer NOT NULL REFERENCES topo (idtopo),
+	PRIMARY KEY (iduser, idtopo, datedeb)
+);
+
+CREATE TABLE commentairetopo (
+	datect   date NOT NULL,
+	textect  text NOT NULL,
+	iduser   integer NOT NULL REFERENCES utilisateur (iduser),
+	idtopo   integer NOT NULL REFERENCES topo (idtopo),
+	PRIMARY KEY (iduser, idtopo, datect)
+);
+
+CREATE TABLE site (
+	idsite          serial PRIMARY KEY,
+	nomsite         varchar(50) NOT NULL,
+	commune         varchar(50) NOT NULL,
+	codepostalsite  varchar(5) NOT NULL,
+	altitude        integer,
+	orientation     varchar(8),
+	rocher          varchar(30), 
+	acces           text,
+	descriptionsite text
+);
+
+CREATE TABLE couvre (
+	idtopo   integer NOT NULL REFERENCES topo (idtopo),
+	idsite   integer NOT NULL REFERENCES site (idsite),
+	PRIMARY KEY (idtopo, idsite)
+);
+
+CREATE TABLE commentairesite (
+	datecsi   date NOT NULL,
+	textecsi  text NOT NULL,
+	iduser    integer NOT NULL REFERENCES utilisateur (iduser),
+	idsite    integer NOT NULL REFERENCES site (idsite),
+	PRIMARY KEY (iduser, idsite, datecsi)
+);
+
+CREATE TABLE secteur (
+	nosecteur	   integer NOT NULL,
+	nomsecteur         varchar(50) NOT NULL,
+	descriptionsecteur text,
+	idsite             integer NOT NULL REFERENCES site (idsite),
+	PRIMARY KEY (nosecteur, idsite)
+);
+
+CREATE TABLE commentairesecteur (
+	datecse    date NOT NULL,
+	textecse   text NOT NULL,
+	iduser     integer NOT NULL REFERENCES utilisateur (iduser),
+	nosecteur	   integer NOT NULL,
+	idsite	  	   integer NOT NULL,
+	CONSTRAINT fk_commentairesecteur_secteur FOREIGN KEY (nosecteur, idsite) REFERENCES secteur (nosecteur, idsite),
+	PRIMARY KEY (iduser, nosecteur, idsite, datecse)
+);
+
+CREATE TABLE voie (
+	novoie	           integer NOT NULL,
+	nomvoie            varchar(50) NOT NULL,
+	cotationvoie	   varchar(10) NOT NULL,
+	nbpoints	   integer NOT NULL,	
+	hauteur            integer,
+	ouvreur            varchar(50),
+	descriptionvoie    text,
+	nosecteur	   integer NOT NULL,
+	idsite	  	   integer NOT NULL,
+	CONSTRAINT fk_voie_secteur FOREIGN KEY (nosecteur, idsite) REFERENCES secteur (nosecteur, idsite),
+	PRIMARY KEY (novoie, nosecteur, idsite)
+);
+
+CREATE TABLE longueur (
+	nolongueur	   integer NOT NULL,
+	hauteurrelais      integer NOT NULL,
+	cotationlongueur   varchar(10),
+	novoie	           integer NOT NULL,
+	nosecteur	   integer NOT NULL,
+	idsite	  	   integer NOT NULL,
+	CONSTRAINT fk_longueur_voie FOREIGN KEY (novoie, nosecteur, idsite) REFERENCES voie (novoie, nosecteur, idsite),
+	PRIMARY KEY (nolongueur, novoie, nosecteur, idsite)
+);

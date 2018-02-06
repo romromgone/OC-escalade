@@ -1,0 +1,33 @@
+body {
+  padding-top: 4rem;
+}
+
+main {
+  padding: 1rem 0rem;
+}
+
+.card-body{
+	padding-top: 15px;
+}
+
+.col-form-label{
+	font-weight: bold
+}
+
+#valider {
+	margin-top: 15px;
+}
+
+small {
+	color: #990000;
+}
+
+form .erreur {
+	color: #990000;
+}
+
+form .succes {
+  color: #009900;
+}
+
+ 

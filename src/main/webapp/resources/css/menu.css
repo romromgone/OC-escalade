@@ -1,0 +1,45 @@
+#btnUser {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+#btnUser::after {
+   border: none;
+   content: none;
+}
+
+h5 {
+	margin-top : 8px;
+	margin-bottom : 15px;	
+}
+
+#form-group {
+	margin-bottom: 10px;
+}
+
+form .erreur {
+	color: #990000;
+}
+
+form .succes {
+  color: #009900;
+}
+
+#valider {
+	margin-bottom : 8px;
+}
+
+#lienInscription {
+	font-size: 10pt;
+	margin-bottom : 8px;
+}
+
+.dropdown-menu {
+	padding-top : 0px;
+	padding-bottom : 0px;	
+}
+
+#deconnexion {
+	margin-bottom : 8px;
+}
