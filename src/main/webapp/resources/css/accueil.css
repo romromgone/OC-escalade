@@ -2,6 +2,10 @@ body {
   padding-top: 3rem;
 }
 
+#navAccueil {
+	color: #fff;
+}
+
 main {
   padding: 1rem 0rem;
   text-align: center;

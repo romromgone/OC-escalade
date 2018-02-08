@@ -14,7 +14,7 @@ import com.ocp3.beans.CommentaireTopo;
 
 public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
 	private static final String SQL_INSERT = "INSERT INTO commentairetopo (datect, textect, iduser, idtopo) VALUES (?, ?, ?, ?)";
-	private static final String SQL_SELECT_PAR_TOPO = "SELECT FROM commentairetopo WHERE idtopo = ? ORDER BY datect DESC";
+	private static final String SQL_SELECT_PAR_TOPO = "SELECT cast (datect as timestamp(0)), textect, iduser, idtopo FROM commentairetopo WHERE idtopo = ? ORDER BY datect DESC";
 
     private DaoFactory daoFactory;
 
@@ -31,12 +31,10 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
         try {
         	/* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
-            /*
-             * Préparation de la requête avec les objets passés en arguments et exécution.
-             */
+            /* Préparation de la requête avec les objets passés en arguments et exécution */
             preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, false, commentaireTopo.getDateCT(), commentaireTopo.getTexteCT(), commentaireTopo.getIdUser(), commentaireTopo.getIdTopo() );
             int statut = preparedStatement.executeUpdate();
-            /* Traitement selon les cas */
+            /* Si échec */
             if ( statut == 0 ) {
                 throw new DaoException( "Échec de la création du commentaire, aucune ligne ajoutée dans la table." );
             }   
@@ -93,7 +91,7 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
      */
     private static CommentaireTopo map( ResultSet resultSet ) throws SQLException {
     	CommentaireTopo commentaireTopo = new CommentaireTopo();
-    	commentaireTopo.setDateCT( resultSet.getDate( "datect" ) );
+    	commentaireTopo.setDateCT( resultSet.getTimestamp( "datect" ) );
     	commentaireTopo.setTexteCT( resultSet.getString( "textect" ) );
     	commentaireTopo.setIdUser( resultSet.getLong( "iduser" ) );
     	commentaireTopo.setIdTopo( resultSet.getLong( "idtopo" ) );

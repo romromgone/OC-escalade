@@ -20,42 +20,42 @@
   				<div class="card-body col-md-12">
        			<form method="post" action="inscription" id="form" name="form" novalidate>
 		  				<div class="form-group row">
-		    				<label class="offset-md-1 col-md-4 col-form-label" for="prenom">Prénom</label>
+		    				<label class="offset-md-1 col-md-4 col-form-label" for="prenom">Prénom*</label>
 		    				<div class="col-md-6">
 		    					<input type="text" class="form-control" id="prenom" name="prenom" value="<c:out value="${utilisateur.prenom}"/>">
 		    					<small class="form-text">${inscriptionForm.erreurs['prenom']}</small>
 		    				</div>
 		  				</div>
 		  				<div class="form-group row">
-		    				<label class="offset-md-1 col-md-4 col-form-label" for="nom">Nom</label>
+		    				<label class="offset-md-1 col-md-4 col-form-label" for="nom">Nom*</label>
 		    				<div class="col-md-6">
 		    					<input type="text" class="form-control" id="nom" name="nom" value="<c:out value="${utilisateur.nom}"/>">
 		    					<small class="form-text">${inscriptionForm.erreurs['nom']}</small>
 		    				</div>
 		  				</div>
 		  				<div class="form-group row">
-		    				<label class="offset-md-1 col-md-4 col-form-label" for="mail">Email</label>
+		    				<label class="offset-md-1 col-md-4 col-form-label" for="mail">Email*</label>
 		    				<div class="col-md-6">
 		    					<input type="email" class="form-control" id="mail" name="mail" value="<c:out value="${utilisateur.mail}"/>">
 		    					<small class="form-text">${inscriptionForm.erreurs['mail']}</small>
 		    				</div>
 		  				</div>
 		  				<div class="form-group row">
-		    				<label class="offset-md-1 col-md-4 col-form-label" for="cp">Code postal</label>
+		    				<label class="offset-md-1 col-md-4 col-form-label" for="cp">Code postal*</label>
 		    				<div class="col-md-6">
 		    					<input type="text" class="form-control" id="cp" name="cp" maxlength="5" value="<c:out value="${utilisateur.codePostal}"/>">
 		    					<small class="form-text">${inscriptionForm.erreurs['cp']}</small>
 		    				</div>
 		  				</div>
 		  				<div class="form-group row">
-		    				<label class="offset-md-1 col-md-4 col-form-label" for="mdp">Mot de passe</label>
+		    				<label class="offset-md-1 col-md-4 col-form-label" for="mdp">Mot de passe*</label>
 		    				<div class="col-md-6">
 			    				<input type="password" class="form-control" id="mdp" name="mdp" aria-describedby="passwordHelpBlock" maxlength="30">
 			    				<small class="form-text">${inscriptionForm.erreurs['mdp']}</small>
 		    				</div>
 		  				</div>
 		  				<div class="form-group row">
-		    				<label class="offset-md-1 col-md-4 col-form-label" for="mdp2">Confirmer mot de passe</label>
+		    				<label class="offset-md-1 col-md-4 col-form-label" for="mdp2">Confirmer mot de passe*</label>
 		    				<div class="col-md-6 is-invalid">
 		    					<input type="password" class="form-control" id="mdp2" name="mdp2" maxlength="30">
 		    				</div>

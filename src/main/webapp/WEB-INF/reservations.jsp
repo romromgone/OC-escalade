@@ -40,16 +40,16 @@
 	  					<form method="post" action="reservations" id="form" name="form" novalidate>
 		  					<div class="form-row">
 		  						<div class="col-md-3">
-		  							<label class="" for="inputTopo">Topo</label>
+		  							<label for="inputTopo">Topo</label>
 	  							</div>
 	  							<div class="col-md-3">
-		  							<label class="" for="inputMail">Email</label>
+		  							<label for="inputMail">Email</label>
 		  						</div>
 		  						<div class="col-md-2">
-		  							<label class="" for="inputDateDeb">Du</label>
+		  							<label for="inputDateDeb">Du</label>
 		  						</div>
 		  						<div class="col-md-2">
-		  							<label class="" for="inputDateFin">Au</label>
+		  							<label for="inputDateFin">Au</label>
 		  						</div>
 		  					</div>
 		  					<div class="form-row">
@@ -88,6 +88,7 @@
 								      <th scope="col">Bénéficiaire</th>
 								      <th scope="col">Du</th>
 								      <th scope="col">Au</th>
+								      <th scope="col"></th>
 								    </tr>
 								  </thead>
 								  <tbody>
@@ -104,10 +105,10 @@
 									      <td><c:out value="${pret.dateFin}" /></td>
 									      <td>
 									      	<form method="post" action="reservations" id="formSuppression" name="formSuppression" novalidate>	 
-									      		<input type="hidden" id="supprDateDeb" name="supprDateDeb" value="${pret.dateDeb}">
-									      		<input type="hidden" id="supprIdUser" name="supprIdUser" value="${pret.idUser}">
-									      		<input type="hidden" id="supprIdTopo" name="supprIdTopo" value="${pret.idTopo}">
-									      		<button type="submit" class="btn btn-info" name="suppr" value="ok"><span class="fas fa-trash-alt" aria-hidden="true"></span></button>
+									      		<input type="hidden" id="resaDateDeb" name="resaDateDeb" value="${pret.dateDeb}">
+									      		<input type="hidden" id="resaIdUser" name="resaIdUser" value="${pret.idUser}">
+									      		<input type="hidden" id="resaIdTopo" name="resaIdTopo" value="${pret.idTopo}">
+									      		<button type="submit" class="btn btn-info" name="suppr" value="suppr"><span class="fas fa-trash-alt" aria-hidden="true"></span></button>
      									    </form>
 									      </td>
 									    </tr>

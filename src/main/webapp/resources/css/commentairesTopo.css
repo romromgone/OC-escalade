@@ -1,0 +1,15 @@
+.comm {
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	padding: 5px;
+}
+
+.headerComm {
+	margin-top: 25px;
+	margin-bottom: 5px;
+}
+
+h5 {
+	margin-bottom: 20px;
+}

@@ -32,12 +32,10 @@ public class ReservationDaoImpl implements ReservationDao {
         try {
         	/* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
-            /*
-             * Préparation de la requête avec les objets passés en arguments et exécution.
-             */
+            /* Préparation de la requête avec les objets passés en arguments et exécution */
             preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, false, reservation.getDateDeb(), reservation.getDateFin(), reservation.getIdUser(), reservation.getIdTopo() );
             int statut = preparedStatement.executeUpdate();
-            /* Traitement selon les cas */
+            /* Si échec */
             if ( statut == 0 ) {
                 throw new DaoException( "Échec de la création de la reservation, aucune ligne ajoutée dans la table." );
             }   
@@ -57,12 +55,10 @@ public class ReservationDaoImpl implements ReservationDao {
         try {
         	/* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
-            /*
-             * Préparation de la requête avec les objets passés en arguments et exécution.
-             */
+            /* Préparation de la requête avec les objets passés en arguments et exécution */
             preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID, false, dateDeb, idUser, idTopo );
             int statut = preparedStatement.executeUpdate();
-            /* Traitement selon les cas */
+            /* Si échec */
             if ( statut == 0 ) {
                 throw new DaoException( "Échec de la suppression de la reservation, aucune ligne ajoutée dans la table." );
             }   

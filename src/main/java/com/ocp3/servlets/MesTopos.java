@@ -23,31 +23,35 @@ public class MesTopos extends HttpServlet {
 	private UtilisateurDao utilisateurDao;
     
 	public void init() throws ServletException {
+		/* Récupération des instances des DAO */
         this.topoDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getTopoDao();
         this.utilisateurDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getUtilisateurDao(); 
     }
        
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		listerTopos(request);
 		
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/mestopos.jsp" ).forward( request, response );
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-        MesToposForm form = new MesToposForm( topoDao );
-
+		/* Préparation de l'objet formulaire */
+		MesToposForm form = new MesToposForm( topoDao );
+		
+		/* Traitement de la requête et récupération du bean en résultat */
         Topo topo = form.ajouterTopo( request );
-
+        
+        /* Stockage du formulaire et du bean dans l'objet request */
         request.setAttribute( "mesToposForm", form );
         request.setAttribute( "topo", topo );
         
-        listerTopos(request);
+        listerTopos( request );
         
         this.getServletContext().getRequestDispatcher( "/WEB-INF/mestopos.jsp" ).forward( request, response );
 	}
 	
-	
-	private void listerTopos(HttpServletRequest request) {
+	/* Méthode privée qui récupère les données à afficher et les transmet */ 
+	private void listerTopos( HttpServletRequest request ) {
 		HttpSession session = request.getSession();	
 		Utilisateur utilisateur = (Utilisateur) session.getAttribute("sessionUtilisateur");
 		

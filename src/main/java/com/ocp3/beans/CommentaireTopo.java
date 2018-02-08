@@ -1,9 +1,10 @@
 package com.ocp3.beans;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+
 
 public class CommentaireTopo {
-	private Date dateCT;
+	private Timestamp dateCT;
 	private String texteCT;
 	private Long idUser;
 	private Long idTopo;
@@ -12,10 +13,10 @@ public class CommentaireTopo {
 	private Topo topo;
 	
 	
-	public Date getDateCT() {
+	public Timestamp getDateCT() {
 		return dateCT;
 	}
-	public void setDateCT(Date dateCT) {
+	public void setDateCT(Timestamp dateCT) {
 		this.dateCT = dateCT;
 	}
 	

@@ -2,10 +2,10 @@ body {
   padding-top: 4rem;
 }
 
-main {
-  padding: 1rem 0rem;
+#navTopos {
+	color: #fff;
 }
 
-td a { 
-   display: block; 
+main {
+  padding: 1rem 0rem;
 }

@@ -59,37 +59,37 @@
 							      <div class="modal-body">
 							      	<form method="post" action="mestopos" id="form" name="form" novalidate> 
 							  				<div class="form-group row">
-							    				<label class="col-md-4 col-form-label" for="titre">Titre</label>
+							    				<label class="col-md-4 col-form-label" for="titre">Titre*</label>
 							    				<div class="col-md-8">
 							    					<input type="text" class="form-control" id="titre" name="titre" value="<c:out value="${topo.titre}"/>">
 							    					<small class="form-text">${mesToposForm.erreurs['titre']}</small>
 							    				</div>
 							  				</div>
 							  				<div class="form-group row">
-							    				<label class="col-md-4 col-form-label" for="auteur">Auteur</label>
+							    				<label class="col-md-4 col-form-label" for="auteur">Auteur*</label>
 							    				<div class="col-md-8">
 							    					<input type="text" class="form-control" id="auteur" name="auteur" value="<c:out value="${topo.auteur}"/>">
 							    					<small class="form-text">${mesToposForm.erreurs['auteur']}</small>
 							    				</div>
 							  				</div>
 							  				<div class="form-group row">
-							    				<label class="col-md-4 col-form-label" for="anneeEdition">Année d'édition</label>
+							    				<label class="col-md-4 col-form-label" for="anneeEdition">Année d'édition*</label>
 							    				<div class="col-md-8">
 							    					<input type="text" class="form-control" id="anneeEdition" name="anneeEdition" maxlength="4" value="<c:out value="${topo.anneeEdition}"/>">
 							    					<small class="form-text">${mesToposForm.erreurs['anneeEdition']}</small>
 							    				</div>
 							  				</div>
 							  				<div class="form-group row">
-							    				<label class="col-md-4 col-form-label" for="departement">Département</label>
+							    				<label class="col-md-4 col-form-label" for="departement">Département*</label>
 							    				<div class="col-md-8">
-							    					<input type="text" class="form-control" id="departement" name="departement" maxlength="3" value="<c:out value="${topo.departement}"/>">
+							    					<input type="text" class="form-control" id="departement" name="departement" maxlength="3" value="<c:out value="${topo.departement}"/>" >
 							    					<small class="form-text">${mesToposForm.erreurs['departement']}</small>
 							    				</div>
 							  				</div>
 							  				<div class="form-group row">
-							    				<label class="col-md-4 col-form-label" for="description">Description</label>
+							    				<label class="col-md-4 col-form-label" for="description">Description*</label>
 							    				<div class="col-md-8">
-								    				<textarea class="form-control" id="description" name="description" rows="2"></textarea>
+								    				<textarea class="form-control" id="description" name="description" rows="2" ><c:out value="${topo.description}"/></textarea>
 								    				<small class="form-text">${mesToposForm.erreurs['description']}</small>
 							    				</div>
 							  				</div>
@@ -107,7 +107,7 @@
 								    <tr>
 								      <th scope="col">Dép.</th>
 								      <th scope="col">Titre</th>
-								      <th scope="col">Auteur</th>
+								      <th scope="col">Auteur(s)</th>
 								      <th scope="col">Année</th>
 								      <th scope="col">Description</th>
 								    </tr>

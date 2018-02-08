@@ -33,9 +33,7 @@ public class TopoDaoImpl implements TopoDao {
         try {
         	/* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
-            /*
-             * Préparation de la requête avec les objets passés en arguments et exécution.
-             */
+            /* Préparation de la requête avec les objets passés en arguments et exécution */
             preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, true, topo.getTitre(), topo.getAuteur(), topo.getAnneeEdition(), topo.getDepartement(), topo.getDescription(), topo.getIdUser() );
             int statut = preparedStatement.executeUpdate();
             /* Traitement selon les cas */

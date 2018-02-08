@@ -19,17 +19,38 @@
     
     	<div class="offset-md-1 col-md-10">
 	      	<div class="card">
-	  				<h6 class="card-header ">Fiche du topo</h6>
+	  				<h6 class="card-header">Fiche du topo</h6>
 	  				<div class="card-body col-md-12">
-		  				<p><c:out value="${topo.titre}" /></p>
-		  				<p><c:out value="${topo.auteur}" /></p>
-		  				<p><c:out value="${topo.anneeEdition}" /></p>
-		  				<p><c:out value="${topo.departement}" /></p>
-		  				<p><c:out value="${topo.description}" /></p>
-		  				<p><c:out value="${topo.utilisateur.prenom}" /></p>
-		  				<p><c:out value="${topo.utilisateur.nom}" /></p>
-		  				<p><c:out value="${topo.utilisateur.codePostal}" /></p>
-		  				<p><c:out value="${topo.utilisateur.mail}" /></p>
+	  				
+	  					<h6 class="card-title">${topo.titre}</h6>
+	  					<form id="form1">
+	  						<div class="row">
+		  						<div class="col-md-6">
+		  							<div class="form-group">
+					  					<label for="dep">Département</label>
+				    					<input type="text" readonly class="form-control-plaintext" id="dep" name="dep" value="${topo.departement}">	    					
+				    				</div>
+				    				<div class="form-group">
+					    				<label for="auteur">Auteur(s)</label>
+					    				<input type="text" readonly class="form-control-plaintext" id="auteur" name="auteur" value="${topo.auteur}">	    					
+										</div>
+				    				<div class="form-group">
+					    				<label for="anneeEdition">Année d'édition</label>
+					    				<input type="text" readonly class="form-control-plaintext" id="anneeEdition" name="anneeEdition" value="${topo.anneeEdition}">	    					
+										</div>
+									</div>
+									<div class="col-md-6">
+										<p>${topo.description}</p>
+									</div>
+								</div>
+							</form>
+
+		  				<p class="lead">
+		  					Pour faire une demande de réservation, envoyer un mail à <mark>${topo.utilisateur.prenom} ${topo.utilisateur.nom} (${topo.utilisateur.codePostal}) : ${topo.utilisateur.mail}</mark>
+								<br />(Les dates doivent prendre en compte les éventuels délais d'envois/de retours)
+								<br />Réservations en cours et/ou à venir :
+							</p>
+						
 		  				<div class="row">      			      			
 		       			<table class="table table-striped">
 								  <thead>
@@ -56,10 +77,11 @@
 								</table>
 							</div>
 							
-							<%@ include file="commentaires.jsp" %>
-							
 	  				</div>
 	  			</div>
+	  			
+	  			<%@ include file="commentairesTopo.jsp" %>
+	  			
 	  	</div>
 	  	
     </main>

@@ -27,7 +27,7 @@
 								    <tr>
 								      <th scope="col">Dép.</th>
 								      <th scope="col">Titre</th>
-								      <th scope="col">Auteur</th>
+								      <th scope="col">Auteur(s)</th>
 								      <th scope="col">Année</th>
 								      <th scope="col">Description</th>
 								      <th scope="col">Propriétaire</th>

@@ -1,9 +1,10 @@
 package com.ocp3.beans;
 
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 public class CommentaireSecteur {
-	private Date dateCSe;
+	private Timestamp dateCSe;
 	private String textCSe;
 	private Long idUser;
 	private Integer noSecteur;
@@ -13,10 +14,10 @@ public class CommentaireSecteur {
 	private Site site;
 	
 	
-	public Date getDateCSe() {
+	public Timestamp getDateCSe() {
 		return dateCSe;
 	}
-	public void setDateCSe(Date dateCSe) {
+	public void setDateCSe(Timestamp dateCSe) {
 		this.dateCSe = dateCSe;
 	}
 	

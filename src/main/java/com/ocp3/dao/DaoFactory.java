@@ -44,4 +44,7 @@ public class DaoFactory {
     public CommentaireTopoDao getCommentaireTopoDao() {
         return new CommentaireTopoDaoImpl(this);
     }
+    public SiteDao getSiteDao() {
+        return new SiteDaoImpl(this);
+    }
 }

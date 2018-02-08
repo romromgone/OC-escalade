@@ -1,8 +1,7 @@
 package com.ocp3.servlets;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.ocp3.beans.*;
 import com.ocp3.dao.*;
@@ -25,51 +23,56 @@ public class ConsulterTopo extends HttpServlet {
 	private CommentaireTopoDao commentaireTopoDao;
     
 	public void init() throws ServletException {
+		/* Récupération des instances des DAO */
         this.topoDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getTopoDao();  
         this.utilisateurDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getUtilisateurDao(); 
         this.reservationDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getReservationDao(); 
         this.commentaireTopoDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getCommentaireTopoDao(); 
     }
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();	
-		
-		long idTopo=Long.parseLong( request.getParameter("id") );	
-		Topo topo = topoDao.trouver( utilisateurDao, idTopo );
-		List<Reservation> reservations = reservationDao.listerResasPourTopo( utilisateurDao, topoDao, topo.getId() );
-		List<CommentaireTopo> commentairesTopo = commentaireTopoDao.lister( utilisateurDao, topoDao, topo.getId() );
-
-		request.setAttribute( "topo", topo );
-		request.setAttribute( "reservations", reservations );
-		request.setAttribute( "commentairesTopo", commentairesTopo );
-	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		afficherDonnees( request, "id" );
 		
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/topo.jsp" ).forward( request, response );
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();	
-		Utilisateur utilisateur = (Utilisateur) session.getAttribute("sessionUtilisateur");
+		/* Récupération des attributs du commentaire */
+		Timestamp dateCT = new Timestamp( System.currentTimeMillis() );	
+		String texteCT = request.getParameter( "commentaire" );
+		Long idUser = ( (Utilisateur) request.getSession().getAttribute("sessionUtilisateur") ).getId();
+		Long idTopo = Long.parseLong( request.getParameter( "idTopo" ) );
 		
-		
+		/* Création et initialisation du commentaire pour ajout */
 		CommentaireTopo commentaireTopo = new CommentaireTopo();
-		Date date = Date.valueOf( LocalDate.now() );
-		commentaireTopo.setDateCT( date );
-		commentaireTopo.setTexteCT( request.getParameter( "commentaire" ) );
-		commentaireTopo.setIdUser( utilisateur.getId() );
-		commentaireTopo.setIdTopo( Long.parseLong( request.getParameter( "idTopo" ) ) );
+		commentaireTopo.setDateCT( dateCT );
+		commentaireTopo.setTexteCT( texteCT );
+		commentaireTopo.setIdUser( idUser );
+		commentaireTopo.setIdTopo( idTopo );
 		commentaireTopoDao.ajouter(commentaireTopo);
+	
+		afficherDonnees( request, "idTopo" );
 		
+		this.getServletContext().getRequestDispatcher( "/WEB-INF/topo.jsp" ).forward( request, response );		
+	}
+	
+	/* Méthode privée qui récupère les données à afficher et les transmet.
+	 * L'id du topo est récupéré grâce à "request.getParameter" mais via 2 paramètres différents pour les méthode POST et GET :
+	 * via la variable de l'url "id" lors du premier accès à la page par lien pour GET
+	 * via un input caché "idTopo" du formulaire d'envoi de commentaire pour POST 
+	 * (dont la valeur est initialisée grâce à l'attribut "topo" de l'objet request récupéré lors du premier accès à la page).
+	 * C'est le paramètre "parameter" de cette fonction qui permet de différencier quel paramètre de request récupérer.
+	 */
+	private void afficherDonnees( HttpServletRequest request, String parameter ) {
+		long idTopo = Long.parseLong( request.getParameter( parameter ) );
 		
-		List<Reservation> reservations = reservationDao.listerResasPourTopo( utilisateurDao, topoDao, Long.parseLong( request.getParameter( "idTopo" ) ) );
-		List<CommentaireTopo> commentairesTopo = commentaireTopoDao.lister( utilisateurDao, topoDao, Long.parseLong( request.getParameter( "idTopo" ) ) );
+		Topo topo = topoDao.trouver( utilisateurDao, idTopo );
+		List<Reservation> reservations = reservationDao.listerResasPourTopo( utilisateurDao, topoDao, idTopo );
+		List<CommentaireTopo> commentairesTopo = commentaireTopoDao.lister( utilisateurDao, topoDao, idTopo );
 
-		//request.setAttribute( "topo", topo );
+		request.setAttribute( "topo", topo );
 		request.setAttribute( "reservations", reservations );
 		request.setAttribute( "commentairesTopo", commentairesTopo );
-		
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/topo.jsp" ).forward( request, response );
-		
 	}
 
 }

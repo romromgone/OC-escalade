@@ -2,10 +2,48 @@ body {
   padding-top: 4rem;
 }
 
+#navTopos {
+	color: #fff;
+}
+
 main {
   padding: 1rem 0rem;
 }
 
-td a { 
-   display: block; 
+.card {
+	margin-bottom: 30px;
 }
+
+.card-title {
+	font-size: 17px;
+	color: #fff;
+	background-color: #17a2b8;
+	text-align: center;
+	margin-top: 15px;
+	margin-bottom: 30px;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	border-color: #17a2b8;
+	padding: 5px;
+}
+
+#form1 {
+	margin-bottom: 30px;
+}
+
+label {
+	text-decoration: underline;
+	margin-bottom: 0px;
+}
+
+.form-control-plaintext {
+	font-weight: bold;
+  display: block;
+  width: 100%;
+ }
+ 
+ .lead {
+  text-align: center;
+ 	font-size: 17px;
+ }

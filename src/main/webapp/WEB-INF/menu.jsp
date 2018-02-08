@@ -10,21 +10,14 @@
 		
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		  <ul class="navbar-nav mr-auto">
-		    <li class="nav-item active">
-		      <a class="nav-link" href="index.jsp">Accueil <span class="sr-only">(current)</span></a>
+		    <li class="nav-item">
+		      <a class="nav-link" id="navAccueil" href="index.jsp">Accueil</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link" href="#">Sites</a>
+		      <a class="${empty sessionScope.sessionUtilisateur ? 'nav-link disabled' : 'nav-link'}" id="navSites" href="${empty sessionScope.sessionUtilisateur ? '#' : 'sites'}">Sites de grimpe</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link" href="#">Recherche</a>
-		    </li>
-		    <li class="nav-item dropdown">
-		      <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Topos</a>
-		      <div class="dropdown-menu" aria-labelledby="dropdown01">
-		        <a class="dropdown-item" href="topos">Consulter les topos</a>
-		        <a class="dropdown-item" href="#">Prêt de topo</a>            
-		      </div>
+		      <a class="${empty sessionScope.sessionUtilisateur ? 'nav-link disabled' : 'nav-link'}" id="navTopos" href="${empty sessionScope.sessionUtilisateur ? '#' : 'topos'}">Nos topos</a>      
 		    </li>
 		  </ul>
 		  <ul class="navbar-nav ml-auto">
