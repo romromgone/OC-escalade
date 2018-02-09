@@ -1,0 +1,156 @@
+CREATE TABLE utilisateur (
+	iduser serial PRIMARY KEY,
+    	nomuser varchar(30) NOT NULL,
+    	prenomuser varchar(20) NOT NULL,
+    	mail varchar(50) NOT NULL,
+	codepostaluser varchar(5) NOT NULL,
+    	mdp varchar(56) NOT NULL
+);
+
+CREATE TABLE topo (
+	idtopo          serial PRIMARY KEY,
+	titre           varchar(100) NOT NULL,
+	auteur          varchar(50) NOT NULL,
+	anneeedition    varchar(4) NOT NULL,
+	departement	varchar(2) NOT NULL,
+	descriptiontopo text NOT NULL,
+	iduser          integer NOT NULL REFERENCES utilisateur (iduser)
+);
+
+CREATE TABLE reservation (
+	datedeb  date NOT NULL,
+	datefin  date NOT NULL,
+	iduser   integer NOT NULL REFERENCES utilisateur (iduser),
+	idtopo   integer NOT NULL REFERENCES topo (idtopo),
+	PRIMARY KEY (iduser, idtopo, datedeb)
+);
+
+CREATE TABLE commentairetopo (
+	datect   date NOT NULL,
+	textect  text NOT NULL,
+	iduser   integer NOT NULL REFERENCES utilisateur (iduser),
+	idtopo   integer NOT NULL REFERENCES topo (idtopo),
+	PRIMARY KEY (iduser, idtopo, datect)
+);
+
+CREATE TABLE site (
+	idsite          serial PRIMARY KEY,
+	nomsite         varchar(50) NOT NULL,
+	commune         varchar(50) NOT NULL,
+	codepostalsite  varchar(5) NOT NULL,
+	altitude        integer,
+	orientation     varchar(8),
+	rocher          varchar(30), 
+	acces           text,
+	descriptionsite text
+);
+
+CREATE TABLE couvre (
+	idtopo   integer NOT NULL REFERENCES topo (idtopo),
+	idsite   integer NOT NULL REFERENCES site (idsite),
+	PRIMARY KEY (idtopo, idsite)
+);
+
+CREATE TABLE commentairesite (
+	datecsi   date NOT NULL,
+	textecsi  text NOT NULL,
+	iduser    integer NOT NULL REFERENCES utilisateur (iduser),
+	idsite    integer NOT NULL REFERENCES site (idsite),
+	PRIMARY KEY (iduser, idsite, datecsi)
+);
+
+CREATE TABLE secteur (
+	nosecteur	   serial NOT NULL,
+	nomsecteur         varchar(50) NOT NULL,
+	descriptionsecteur text,
+	idsite             integer NOT NULL REFERENCES site (idsite),
+	PRIMARY KEY (nosecteur, idsite)
+);
+
+CREATE TABLE commentairesecteur (
+	datecse    date NOT NULL,
+	textecse   text NOT NULL,
+	iduser     integer NOT NULL REFERENCES utilisateur (iduser),
+	nosecteur	   integer NOT NULL,
+	idsite	  	   integer NOT NULL,
+	CONSTRAINT fk_commentairesecteur_secteur FOREIGN KEY (nosecteur, idsite) REFERENCES secteur (nosecteur, idsite),
+	PRIMARY KEY (iduser, nosecteur, idsite, datecse)
+);
+
+CREATE TABLE voie (
+	novoie	           integer NOT NULL,
+	nomvoie            varchar(50) NOT NULL,
+	cotationvoie	   varchar(10) NOT NULL,
+	nbpoints	   integer,	
+	hauteur            integer,
+	ouvreur            varchar(50),
+	descriptionvoie    text,
+	nosecteur	   integer NOT NULL,
+	idsite	  	   integer NOT NULL,
+	CONSTRAINT fk_voie_secteur FOREIGN KEY (nosecteur, idsite) REFERENCES secteur (nosecteur, idsite),
+	PRIMARY KEY (novoie, nosecteur, idsite)
+);
+
+CREATE TABLE longueur (
+	nolongueur	   serial NOT NULL,
+	hauteurrelais      integer NOT NULL,
+	cotationlongueur   varchar(10),
+	novoie	           integer NOT NULL,
+	nosecteur	   integer NOT NULL,
+	idsite	  	   integer NOT NULL,
+	CONSTRAINT fk_longueur_voie FOREIGN KEY (novoie, nosecteur, idsite) REFERENCES voie (novoie, nosecteur, idsite),
+	PRIMARY KEY (nolongueur, novoie, nosecteur, idsite)
+);
+
+
+INSERT INTO utilisateur (nomuser, prenomuser, mail, mdp, codepostaluser) VALUES 
+('Camberbet', 'Romain', 'romain.camberbet@gmail.com', 'password1', '33400'),
+('Dupond', 'Marc', 'marc.dupond@hotmail.fr', 'password2', '33000'),
+('Lafourcade', 'Christophe', 'christl64@free.fr', 'password3', '64000'),
+('Fontaine', 'Jean', 'jFontaine@outlook.com', 'password4', '40100');
+
+INSERT INTO topo (titre, auteur, anneeedition, departement, descriptiontopo, iduser) VALUES 
+('La vallée d'Ossau', 'Xavier Buxo et Luis Alfonso', '2011', '64', 'Tracés des voies sur croquis ou photos couleur. 1-ARUDY 2-ROCHER BLANC 3-HOURAT 4-PLEYSSE 5-GOURETTE 6-LARRIBET 7-MIÉGEBAT 8-ARRÉMOULIT 9-PIC DU MIDI D'OSSAU 10-POURTALET', 1),
+('Arudy, escalades dans les Pyrénées-Atlantiques : Le topo', 'Rando éditions', '2010', '64', '9 secteurs pour 220 voies cotées et 13 autres voies non cotées. Le tout rassemblé en 25 aquarelles. Les descriptifs sont présentés de façon simple et efficace qui sied au genre.', 1),
+('Escalade au Pays basque', 'Alain Etchepare', '1999', '64', 'NC', 3),
+('40 Falaises aux environs du lac d'Annecy', 'Robert Durieux', '2017', '74', 'Escalade choisie aux environs du lac d'Annecy 1497 longueurs du 3a au 9a Allonzier la Caille La Balme de Sillingy Lesvaux Rampon Mont Baret Mont Veyrier Chapeau de Napoléon Rocher des Moillats Roche de Roux Lars Balmettes Pérouses Duingt Falaise de Taillefer Dalle Rousse Quintal Eau Vive Grande Jeanne Sainte Catherine Nonglard Angon Tours St Jacques Pont de la Caille Béard Parmelan Malpas Vovray Chaumont Pierre Taillée Chapelle Col des Glières Commanderie Ablon Dalle des Vorets Falaise du Bouton Roc de Viuz Cons Ste Colombe Lanfonnet Biclop', 2),
+('Escalades dans le Diois', 'Dominique Duhaut, Manu Ibarra', '2006', '26', 'Avec ce guide, c'est une sélection de 62 itinéraires d'escalade de la vallée de la Drôme qui sont décrits dans le détail. Cette sélection met en valeur des voies classiques, des itinéraires modernes de libre ou d'escalade artificielle.', 4);
+
+INSERT INTO reservation (datedeb, datefin, iduser, idtopo) VALUES 
+('2018-02-12', '2017-02-20', 2, 1),
+('2018-03-05', '2018-03-11', 3, 1),
+('2018-02-21', '2016-04-28', 1, 4),
+('2018-02-12', '2018-02-12', 4, 3),
+('2018-03-15', '2018-03-20', 2, 3);
+
+INSERT INTO site (nomsite, commune, codepostalsite, altitude, orientation, rocher, acces, descriptionsite) VALUES 
+('Arudy', 'Arudy', '64260', 450, 'SO', 'calcaire', 'Depuis Pau, suivre la N134 en direction d’Oloron sur environ 8km. Ensuite, emprunter la D934 sur 15km, puis prendre la direction Arudy par la D287. À Arudy, sur l’axe Laruns – OloronSainte-Marie, se trouve LA grande surface Champion. Tourner devant ce magasin, quelques centaines de mètres plus loin, prendre à droite à l’embranchement et se garer 200 mètres après sur le parking à gauche. À pied, passer devant la ferme d’Anglas et continuer jusqu’à la falaise (secteur Houn de Laa).', 'La falaise est praticable toute l’année s’il fait beau. Reste souvent humide après une pluie. Au secteur Sesto, réputé le plus ensoleillé, le soleil arrive vers 9h et s’en va vers 14-15h en hiver. Attention donc, en cette saison, à commencer tôt les jours où il fait frisquet.'),
+('Grottes de Sare', 'Sare', '64310', 250, 'S', 'calcaire', ' Depuis le parking des grottes touristiques de Sare, il faut prendre un bon chemin à droite qui s'élève rapidement au milieu de blocs de conglomérats. Le garder pendant 10 min environ,et le quitter pour un petit sentier à gauche, juste après un gros chêne isolé et bien visible légèrement en contrebas. Une barrière doit être franchie pour y accéder. 30 m plus loin, on distingue des affleurements rocheux qu'il faut contourner, le rocher se trouve juste derrière.', 'Vous trouverez un calcaire solide et compact mais que l’on préférerait plus adhérent. Le rocher est varié et propose une belle diversité de styles: dalles à gros bacs, mur vertical et technique, petits surplombs, bombés teigneux ou gros dévers concrétionnés. Les cotations des voies vont du 4a au 8a, les plus faciles se trouvant à droite et les plus ardues à gauche, dans le dévers. Les lignes mesurent entre 10 et 15m, vous pourrez donc écumer le site avec une corde de 30m et 8 dégaines. Si le premier gros bloc de poudingue vu sur la droite à l’aller vous a inspiré et que vous n’avez pas tout donné dans la falaise, tapez-y quelques essais au retour.');
+
+INSERT INTO couvre (idtopo, idsite) VALUES 
+(1, 1),
+(2, 1),
+(3, 2);
+
+INSERT INTO secteur (nomsecteur, descriptionsecteur, idsite) 
+VALUES ('Houn de Laa', '', 1),
+VALUES ('Vénus', '', 1),
+VALUES ('Soleil', '', 1);
+
+INSERT INTO voie (novoie, nomvoie, cotationvoie, nbpoints, hauteur, ouvreur, descriptionvoie, nosecteur, idsite) VALUES 
+(1, 'Objecter et Gémir', '6a+', ?, ?, ?, ?, 3, 1),
+(2, 'Libremax', '6c', ?, ?, ?, ?, 3, 1),
+(3, '?', '7b', ?, ?, ?, ?, 3, 1),
+(4, 'Dalle Toulet 1', '4c', ?, ?, ?, ?, 3, 1),
+(5, 'Dalle Toulet 2', '4c', ?, ?, ?, ?, 3, 1);
+
+INSERT INTO commentairetopo (datect, textect, iduser, idtopo) VALUES 
+('2017-12-05', 'Topo très bien fait, très complet et en bon état !', 1, 1),
+('2018-01-18', 'Super topo je confirme!', 2, 1);
+
+INSERT INTO commentairesite (datecsi, textecsi, iduser, idsite) VALUES 
+('2017-12-04', 'Site magnifique, il y en a pour tout le monde.', 1, 1);
+
+INSERT INTO commentairesecteur (datecse, textecse, iduser, nosecteur, idsite) VALUES 
+('2018-12-04', 'Mon secteur préféré, je ne m'en lasse jamais !', 1, 3, 1),
+('2018-12-04', 'Mon secteur préféré, je ne m'en lasse jamais !', 2, 3, 1);
