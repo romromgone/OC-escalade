@@ -23,7 +23,7 @@ public class ReservationDaoImpl implements ReservationDao {
         this.daoFactory = daoFactory;
     }
     
-    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    /* Implémentation de la méthode définie dans l'interface ReservationDao */
     @Override
     public void ajouter( Reservation reservation ) throws DaoException {
         Connection connexion = null;
@@ -46,7 +46,7 @@ public class ReservationDaoImpl implements ReservationDao {
         }
     }
     
-    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    /* Implémentation de la méthode définie dans l'interface ReservationDao */
     @Override
     public void supprimer( Date dateDeb, Long idUser, Long idTopo ) throws DaoException {
         Connection connexion = null;
@@ -69,19 +69,19 @@ public class ReservationDaoImpl implements ReservationDao {
         }
     }
     
-    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    /* Implémentation de la méthode définie dans l'interface ReservationDao */
     @Override
     public List<Reservation> listerPrets( UtilisateurDao utilisateurDao, TopoDao topoDao, Long idUserPreteur ) throws DaoException {
     	return lister( utilisateurDao, topoDao, SQL_SELECT_PAR_PRETEUR, idUserPreteur ); 	
     }
     
-    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    /* Implémentation de la méthode définie dans l'interface ReservationDao */
     @Override
     public List<Reservation> listerResasPourUser( UtilisateurDao utilisateurDao, TopoDao topoDao, Long idUser ) throws DaoException {
     	return lister( utilisateurDao, topoDao, SQL_SELECT_PAR_BENEFICIAIRE, idUser ); 	
     }
     
-    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    /* Implémentation de la méthode définie dans l'interface ReservationDao */
     @Override
     public List<Reservation> listerResasPourTopo( UtilisateurDao utilisateurDao, TopoDao topoDao, Long idTopo ) throws DaoException {
     	return lister( utilisateurDao, topoDao, SQL_SELECT_PAR_IDTOPO, idTopo ); 	

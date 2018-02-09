@@ -110,8 +110,6 @@
 							      <th scope="col">CP</th>
 							      <th scope="col">Nom</th>
 							      <th scope="col">Commune</th>
-							      <th scope="col">Voies du</th>
-							      <th scope="col">au</th>
 							      <th scope="col">Description</th>
 							    </tr>
 							  </thead>
@@ -121,8 +119,6 @@
 								      <th scope="row"><c:out value="${site.codePostal}" /></th>
 								      <td><a href="site?id=${site.id}"><c:out value="${site.nom}" /></a></td>
 								      <td><c:out value="${site.commune}" /></td>
-								      <td><c:out value="" /></td>
-								      <td><c:out value="" /></td>
 								      <td>
 								      	<details>
 												  <summary>Voir la description</summary>

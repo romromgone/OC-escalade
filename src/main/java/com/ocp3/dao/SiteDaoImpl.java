@@ -24,7 +24,7 @@ public class SiteDaoImpl implements SiteDao {
         this.daoFactory = daoFactory;
     }
     
-    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    /* Implémentation de la méthode définie dans l'interface SiteDao */
     @Override
     public void ajouter( Site site ) throws DaoException {
         Connection connexion = null;
@@ -54,13 +54,13 @@ public class SiteDaoImpl implements SiteDao {
         }
     }
     
-    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    /* Implémentation de la méthode définie dans l'interface SiteDao */
     @Override
     public Site trouver( Long idSite ) throws DaoException {
     	return trouver( SQL_SELECT_PAR_ID, idSite ); 	
     }
     
-    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    /* Implémentation de la méthode définie dans l'interface SiteDao */
     @Override
     public List<Site> lister() throws DaoException {
     	return lister( SQL_SELECT ); 	

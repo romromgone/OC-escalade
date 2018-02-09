@@ -1,7 +1,7 @@
 <link href="resources/css/commentairesTopo.css" rel="stylesheet">
 
 <div class="col-md-10">
-	<form method="post" action="topo" id="form" name="form" novalidate> 
+	<form method="post" action="topo" id="formComm" name="formComm" novalidate> 
 		<div class="form-group">
 			<h5 class="text-info">Commentaires</h5>
 			<textarea class="form-control" id="commentaire" name="commentaire" rows="2"></textarea>

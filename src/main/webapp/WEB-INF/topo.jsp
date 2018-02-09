@@ -44,7 +44,20 @@
 									</div>
 								</div>
 							</form>
-
+							<form method="post" action="topo" id="formCouvre" name="formCouvre" novalidate>				
+		  					<div class="form-row">
+		  						<div class="col-auto">
+							  		<p class="lead">Ce topo couvre les sites suivant :</p>
+							  	</div>
+							  	<div class="col-auto">
+										<button class="btn btn-info btn-sm" id="btnAdd" data-toggle="modal" data-target="#modal">
+											<span class="fas fa-plus-circle" aria-hidden="true"></span>
+										</button>
+									</div>
+								</div>
+							</form>
+							
+							<br />
 		  				<p class="lead">
 		  					Pour faire une demande de réservation, envoyer un mail à <mark>${topo.utilisateur.prenom} ${topo.utilisateur.nom} (${topo.utilisateur.codePostal}) : ${topo.utilisateur.mail}</mark>
 								<br />(Les dates doivent prendre en compte les éventuels délais d'envois/de retours)
