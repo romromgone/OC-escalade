@@ -20,6 +20,7 @@ public class ConsulterTopo extends HttpServlet {
 	private TopoDao topoDao;
 	private UtilisateurDao utilisateurDao;
 	private ReservationDao reservationDao;
+	private SiteDao siteDao;
 	private CommentaireTopoDao commentaireTopoDao;
     
 	public void init() throws ServletException {
@@ -27,6 +28,7 @@ public class ConsulterTopo extends HttpServlet {
         this.topoDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getTopoDao();  
         this.utilisateurDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getUtilisateurDao(); 
         this.reservationDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getReservationDao(); 
+        this.siteDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getSiteDao();
         this.commentaireTopoDao = ( (DaoFactory) getServletContext().getAttribute( "daofactory" ) ).getCommentaireTopoDao(); 
     }
 	
@@ -67,10 +69,12 @@ public class ConsulterTopo extends HttpServlet {
 		long idTopo = Long.parseLong( request.getParameter( parameter ) );
 		
 		Topo topo = topoDao.trouver( utilisateurDao, idTopo );
+		List<Site> sites = siteDao.lister( topo.getDepartement() );
 		List<Reservation> reservations = reservationDao.listerResasPourTopo( utilisateurDao, topoDao, idTopo );
 		List<CommentaireTopo> commentairesTopo = commentaireTopoDao.lister( utilisateurDao, topoDao, idTopo );
 
 		request.setAttribute( "topo", topo );
+		request.setAttribute( "sites", sites );
 		request.setAttribute( "reservations", reservations );
 		request.setAttribute( "commentairesTopo", commentairesTopo );
 	}

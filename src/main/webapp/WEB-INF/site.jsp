@@ -18,7 +18,7 @@
     <main role="main" class="container">
     
     	<div class="offset-md-1 col-md-10">
-	      	<div class="card">
+	      	<div class="card" id="card" name="card">
 	  				<h6 class="card-header">Fiche du site</h6>
 	  				<div class="card-body col-md-12">
 	  				

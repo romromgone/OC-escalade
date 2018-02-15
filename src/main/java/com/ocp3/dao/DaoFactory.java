@@ -77,11 +77,26 @@ public class DaoFactory {
     }
     public ReservationDao getReservationDao() {
         return new ReservationDaoImpl(this);
+    } 
+    public SiteDao getSiteDao() {
+        return new SiteDaoImpl(this);
+    }
+    public CouvreDao getCouvreDao() {
+        return new CouvreDaoImpl(this);
+    }
+    public SecteurDao getSecteurDao() {
+        return new SecteurDaoImpl(this);
+    }
+    public VoieDao getVoieDao() {
+        return new VoieDaoImpl(this);
     }
     public CommentaireTopoDao getCommentaireTopoDao() {
         return new CommentaireTopoDaoImpl(this);
     }
-    public SiteDao getSiteDao() {
-        return new SiteDaoImpl(this);
+    public CommentaireSiteDao getCommentaireSiteDao() {
+        return new CommentaireSiteDaoImpl(this);
+    }
+    public CommentaireSecteurDao getCommentaireSecteurDao() {
+        return new CommentaireSecteurDaoImpl(this);
     }
 }

@@ -82,7 +82,7 @@
 							  				<div class="form-group row">
 							    				<label class="col-md-4 col-form-label" for="departement">Département*</label>
 							    				<div class="col-md-8">
-							    					<input type="text" class="form-control" id="departement" name="departement" maxlength="3" value="<c:out value="${topo.departement}"/>" >
+							    					<input type="text" class="form-control" id="departement" name="departement" maxlength="3" placeholder="(pour La Corse : 20)" value="<c:out value="${topo.departement}"/>" >
 							    					<small class="form-text">${mesToposForm.erreurs['departement']}</small>
 							    				</div>
 							  				</div>

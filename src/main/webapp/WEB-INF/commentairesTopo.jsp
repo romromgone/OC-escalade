@@ -1,4 +1,4 @@
-<link href="resources/css/commentairesTopo.css" rel="stylesheet">
+<link href="resources/css/commentaires.css" rel="stylesheet">
 
 <div class="col-md-10">
 	<form method="post" action="topo" id="formComm" name="formComm" novalidate> 

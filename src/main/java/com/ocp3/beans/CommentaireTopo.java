@@ -23,8 +23,8 @@ public class CommentaireTopo {
 	public String getTexteCT() {
 		return texteCT;
 	}
-	public void setTexteCT(String textCT) {
-		this.texteCT = textCT;
+	public void setTexteCT(String texteCT) {
+		this.texteCT = texteCT;
 	}
 	
 	public Long getIdUser() {

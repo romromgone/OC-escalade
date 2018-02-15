@@ -42,7 +42,7 @@
 						        </button>
 						      </div>
 						      <div class="modal-body">
-						      	<form method="post" action="sites" id="form" name="form" novalidate> 
+						      	<form method="post" action="sites" id="ajoutForm" name="ajoutForm" novalidate> 
 						  				<div class="form-group row">
 						    				<label class="col-md-4 col-form-label" for="nom">Nom du site*</label>
 						    				<div class="col-md-8">
@@ -67,14 +67,14 @@
 						  				<div class="form-group row">
 						    				<label class="col-md-4 col-form-label" for="altitude">Altitude</label>
 						    				<div class="col-md-8">
-						    					<input type="text" class="form-control" id="altitude" name="altitude" maxlength="4" placeholder="1458" value="<c:out value="${site.altitude}"/>">
+						    					<input type="text" class="form-control" id="altitude" name="altitude" maxlength="4" placeholder="en mètres, ex : 1458" value="<c:out value="${site.altitude}"/>">
 						    					<small class="form-text">${sitesForm.erreurs['altitude']}</small>
 						    				</div>
 						  				</div>
 						  				<div class="form-group row">
 						    				<label class="col-md-4 col-form-label" for="orientation">Orientation</label>
 						    				<div class="col-md-8">
-							    				<input  type="text" class="form-control" id="orientation" name="orientation" maxlength="8" placeholder="N/S/O/E/NO/SE/Toutes..." value="<c:out value="${site.orientation}"/>">
+							    				<input  type="text" class="form-control" id="orientation" name="orientation" maxlength="8" placeholder="N/S/O/E/N/NE/SO/SE/Toutes" value="<c:out value="${site.orientation}"/>">
 						    				</div>
 						  				</div>
 						  				<div class="form-group row">
@@ -102,6 +102,47 @@
 						    </div>
 						  </div>
 						</div>	
+						<p></p>
+						<div class="row">
+							<form method="post" action="sites" id="rechercheForm" name="rechercheForm" novalidate>
+		  					<div class="form-row">
+		  						<div class="col-md-2">
+		  							<label for="inputDep">Dép.</label>
+	  							</div>
+	  							<div class="col-md-3">
+		  							<label for="inputRocher">Rocher</label>
+		  						</div>
+		  						<div class="col-md-3">
+		  							<label for="inputOrientation">Orientation</label>
+		  						</div>
+		  					</div>
+		  					<div class="form-row">
+		  						<div class="col-md-2"> 			
+										<input type="text" class="form-control mr-md-2" id="inputDep" name="inputDep">
+									</div>
+									<div class="col-md-3"> 
+										<input type="text" class="form-control mr-md-2" id="inputRocher" name="inputRocher">
+									</div>
+									<div class="col-md-3">
+										<select class="form-control mr-md-2" id="inputOrientation" name="inputOrientation">
+										  <option selected></option>
+										  <option>Toutes</option>
+										  <option>N</option>
+										  <option>S</option>
+										  <option>O</option>
+										  <option>E</option>
+										  <option>NO</option>
+										  <option>NE</option>
+										  <option>SO</option>
+										  <option>SE</option>						  
+										</select>
+									</div>
+									<div class="col-md-2">
+										<button type="submit" class="btn btn-info" name="rechercher" value="rechercher">Rechercher</button>									
+									</div>									
+								</div>
+							</form>
+						</div>
 						<p></p>
 	      			<div class="row">      			      			
 	       			<table class="table table-striped">

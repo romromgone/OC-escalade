@@ -38,7 +38,7 @@ public class Reservations extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Si clique sur bouton d'ajout de réservation */
-		if (request.getParameter( "suppr" ) == null) {
+		if ( request.getParameter( "suppr" ) == null ) {
 			ReservationsForm form = new ReservationsForm( reservationDao, utilisateurDao, topoDao );
 	        Reservation reservation = form.ajouterReservation(request);
 	        

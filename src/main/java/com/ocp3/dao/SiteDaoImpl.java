@@ -16,7 +16,14 @@ import com.ocp3.beans.Site;
 public class SiteDaoImpl implements SiteDao {
 	private static final String SQL_INSERT = "INSERT INTO site (nomsite, commune, codepostalsite, altitude, orientation, rocher, acces, descriptionsite) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_SELECT_PAR_ID = "SELECT * FROM site WHERE idsite = ?";
-    private static final String SQL_SELECT = "SELECT * FROM site ORDER BY codepostalsite, nomsite";
+    private static final String SQL_SELECT = "SELECT * FROM site";
+    private static final String SQL_SELECT_PAR_DEP = "SELECT * FROM site WHERE codepostalsite LIKE ? ORDER BY codepostalsite, nomsite";
+    private static final String SQL_SELECT_PAR_ORIENTATION = "SELECT * FROM site WHERE orientation = ? ORDER BY codepostalsite, nomsite";
+    private static final String SQL_SELECT_PAR_DEP_ET_ORIENTATION = "SELECT * FROM site WHERE codepostalsite LIKE ? AND orientation = ? ORDER BY codepostalsite, nomsite";
+    private static final String SQL_SELECT_PAR_ROCHER = "SELECT * FROM site WHERE rocher = ? ORDER BY codepostalsite, nomsite";
+    private static final String SQL_SELECT_PAR_DEP_ET_ROCHER = "SELECT * FROM site WHERE codepostalsite LIKE ? AND rocher = ? ORDER BY codepostalsite, nomsite";
+    private static final String SQL_SELECT_PAR_ORIENTATION_ET_ROCHER = "SELECT * FROM site WHERE orientation = ? AND rocher = ? ORDER BY codepostalsite, nomsite";
+    private static final String SQL_SELECT_PAR_DOR = "SELECT * FROM site WHERE codepostalsite LIKE ? AND orientation = ? AND rocher = ? ORDER BY codepostalsite, nomsite";
 
     private DaoFactory daoFactory;
 
@@ -62,10 +69,165 @@ public class SiteDaoImpl implements SiteDao {
     
     /* Implémentation de la méthode définie dans l'interface SiteDao */
     @Override
-    public List<Site> lister() throws DaoException {
-    	return lister( SQL_SELECT ); 	
+    public List<Site> listerTout() throws DaoException {
+    	Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> sites = new ArrayList<Site>();
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /* Préparation de la requête et exécution */
+            preparedStatement = connexion.prepareStatement( SQL_SELECT );
+            resultSet = preparedStatement.executeQuery();
+            /* Parcours des lignes de données retournée dans le ResultSet */      
+        	while ( resultSet.next() ) {
+        		Site site =  map( resultSet );
+        		sites.add( site );
+        	} 
+        } catch ( SQLException e ) {
+            throw new DaoException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+        return sites; 	
+    } 	
+  
+    /* Implémentation de la méthode définie dans l'interface SiteDao */
+    @Override
+    public List<Site> listerParDep( String departement ) throws DaoException {
+    	Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> sites = new ArrayList<Site>();
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /* Préparation de la requête et exécution */
+            preparedStatement = connexion.prepareStatement( SQL_SELECT_PAR_DEP );
+            preparedStatement.setObject( 1, departement + "%" );
+            resultSet = preparedStatement.executeQuery();
+            /* Parcours des lignes de données retournée dans le ResultSet */      
+        	while ( resultSet.next() ) {
+        		Site site =  map( resultSet );
+        		sites.add( site );
+        	} 
+        } catch ( SQLException e ) {
+            throw new DaoException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+        return sites; 	
     }
     
+    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    @Override
+    public List<Site> listerParOrientation( String orientation ) throws DaoException {
+    	return lister( SQL_SELECT_PAR_ORIENTATION, orientation ); 	
+    }
+    
+    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    @Override
+    public List<Site> listerParRocher( String rocher ) throws DaoException {
+    	return lister( SQL_SELECT_PAR_ROCHER, rocher ); 	
+    }
+    
+    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    @Override
+    public List<Site> listerParDepEtOrientation( String departement, String orientation ) throws DaoException {
+    	Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> sites = new ArrayList<Site>();
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /* Préparation de la requête et exécution */
+            preparedStatement = connexion.prepareStatement( SQL_SELECT_PAR_DEP_ET_ORIENTATION );
+            preparedStatement.setObject( 1, departement + "%" );
+            preparedStatement.setObject( 2, orientation );
+            resultSet = preparedStatement.executeQuery();
+            /* Parcours des lignes de données retournée dans le ResultSet */      
+        	while ( resultSet.next() ) {
+        		Site site =  map( resultSet );
+        		sites.add( site );
+        	} 
+        } catch ( SQLException e ) {
+            throw new DaoException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+        return sites;
+    }
+    
+    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    @Override
+    public List<Site> listerParDepEtRocher( String departement, String rocher ) throws DaoException {
+    	Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> sites = new ArrayList<Site>();
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /* Préparation de la requête et exécution */
+            preparedStatement = connexion.prepareStatement( SQL_SELECT_PAR_DEP_ET_ROCHER );
+            preparedStatement.setObject( 1, departement + "%" );
+            preparedStatement.setObject( 2, rocher );
+            resultSet = preparedStatement.executeQuery();
+            /* Parcours des lignes de données retournée dans le ResultSet */      
+        	while ( resultSet.next() ) {
+        		Site site =  map( resultSet );
+        		sites.add( site );
+        	} 
+        } catch ( SQLException e ) {
+            throw new DaoException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+        return sites;
+    }
+    
+    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    @Override
+    public List<Site> listerParOrientationEtRocher( String orientation, String rocher ) throws DaoException {
+    	return lister( SQL_SELECT_PAR_ORIENTATION_ET_ROCHER, orientation, rocher ); 	
+    }
+    
+    /* Implémentation de la méthode définie dans l'interface TopoDao */
+    @Override
+    public List<Site> listerParDOR( String departement, String orientation, String rocher ) throws DaoException {
+    	Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Site> sites = new ArrayList<Site>();
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /* Préparation de la requête et exécution */
+            preparedStatement = connexion.prepareStatement( SQL_SELECT_PAR_DOR );
+            preparedStatement.setObject( 1, departement + "%" );
+            preparedStatement.setObject( 2, orientation );
+            preparedStatement.setObject( 3, rocher );
+            resultSet = preparedStatement.executeQuery();
+            /* Parcours des lignes de données retournée dans le ResultSet */      
+        	while ( resultSet.next() ) {
+        		Site site =  map( resultSet );
+        		sites.add( site );
+        	} 
+        } catch ( SQLException e ) {
+            throw new DaoException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+        return sites;
+    }
+          
     
     /*
      * Méthode générique utilisée pour trouver un site depuis la base
@@ -91,7 +253,7 @@ public class SiteDaoImpl implements SiteDao {
             if ( resultSet.next() ) {
                 site = map( resultSet );
             } else {
-                throw new DaoException( "Topo inexistant dans la base de donnée" );
+                throw new DaoException( "Site inexistant dans la base de donnée" );
             }
         } catch ( SQLException e ) {
             throw new DaoException( e );    
@@ -130,7 +292,7 @@ public class SiteDaoImpl implements SiteDao {
         }
         return sites;
     }
-    
+      
     /*
      * Simple méthode utilitaire permettant de faire la correspondance (le
      * mapping) entre une ligne issue de la table des sites (un

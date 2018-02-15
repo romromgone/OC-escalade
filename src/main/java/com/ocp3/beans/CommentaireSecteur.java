@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class CommentaireSecteur {
 	private Timestamp dateCSe;
-	private String textCSe;
+	private String texteCSe;
 	private Long idUser;
 	private Integer noSecteur;
 	private Long idSite;
@@ -21,11 +21,11 @@ public class CommentaireSecteur {
 		this.dateCSe = dateCSe;
 	}
 	
-	public String getTextCSe() {
-		return textCSe;
+	public String getTexteCSe() {
+		return texteCSe;
 	}
-	public void setTextCSe(String textCSe) {
-		this.textCSe = textCSe;
+	public void setTexteCSe(String texteCSe) {
+		this.texteCSe = texteCSe;
 	}
 	
 	public Long getIdUser() {

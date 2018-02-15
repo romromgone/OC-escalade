@@ -10,22 +10,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ocp3.beans.CommentaireTopo;
+import com.ocp3.beans.CommentaireSecteur;
 
 
-public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
-	private static final String SQL_INSERT = "INSERT INTO commentairetopo (datect, textect, iduser, idtopo) VALUES (?, ?, ?, ?)";
-	private static final String SQL_SELECT_PAR_TOPO = "SELECT cast (datect as timestamp(0)), textect, iduser, idtopo FROM commentairetopo WHERE idtopo = ? ORDER BY datect DESC";
+public class CommentaireSecteurDaoImpl implements CommentaireSecteurDao {
+	private static final String SQL_INSERT = "INSERT INTO commentairesecteur (datecse, textecse, iduser, nosecteur, idsite) VALUES (?, ?, ?, ?, ?)";
+	private static final String SQL_SELECT_PAR_SECTEUR = "SELECT cast (datecse as timestamp(0)), textecse, iduser, nosecteur, idsite FROM commentairesecteur WHERE nosecteur = ? AND idsite ) ? ORDER BY datecse DESC";
 
     private DaoFactory daoFactory;
 
-    CommentaireTopoDaoImpl(DaoFactory daoFactory) {
+    CommentaireSecteurDaoImpl(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
     
-    /* Implémentation de la méthode définie dans l'interface CommentaireTopoDao */
+    /* Implémentation de la méthode définie dans l'interface CommentaireSecteurDao */
     @Override
-    public void ajouter( CommentaireTopo commentaireTopo ) throws DaoException {
+    public void ajouter( CommentaireSecteur commentaireSecteur ) throws DaoException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
 
@@ -33,7 +33,7 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
         	/* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
             /* Préparation de la requête avec les objets passés en arguments et exécution */
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, false, commentaireTopo.getDateCT(), commentaireTopo.getTexteCT(), commentaireTopo.getIdUser(), commentaireTopo.getIdTopo() );
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, false, commentaireSecteur.getDateCSe(), commentaireSecteur.getTexteCSe(), commentaireSecteur.getIdUser(), commentaireSecteur.getNoSecteur(), commentaireSecteur.getIdSite() );
             int statut = preparedStatement.executeUpdate();
             /* Si échec */
             if ( statut == 0 ) {
@@ -46,10 +46,10 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
         }
     }
     
-    /* Implémentation de la méthode définie dans l'interface CommentaireTopoDao */
+    /* Implémentation de la méthode définie dans l'interface CommentaireSecteurDao */
     @Override
-    public List<CommentaireTopo> lister( UtilisateurDao utilisateurDao, TopoDao topoDao, Long idTopo ) throws DaoException {
-    	return lister( utilisateurDao, topoDao, SQL_SELECT_PAR_TOPO, idTopo ); 	
+    public List<CommentaireSecteur> lister( UtilisateurDao utilisateurDao, SiteDao siteDao, Long idSecteur ) throws DaoException {
+    	return lister( utilisateurDao, siteDao, SQL_SELECT_PAR_SECTEUR, idSecteur ); 	
     }
     
     
@@ -58,11 +58,11 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
      * de données, correspondant à la requête SQL donnée prenant en paramètres
      * les objets passés en argument.
      */
-    private List<CommentaireTopo> lister( UtilisateurDao utilisateurDao, TopoDao topoDao, String sql, Object... objets ) throws DaoException {
+    private List<CommentaireSecteur> lister( UtilisateurDao utilisateurDao, SiteDao siteDao, String sql, Object... objets ) throws DaoException {
     	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        List<CommentaireTopo> commentairesTopo = new ArrayList<CommentaireTopo>();
+        List<CommentaireSecteur> commentairesSecteur = new ArrayList<CommentaireSecteur>();
 
         try {
             /* Récupération d'une connexion depuis la Factory */
@@ -72,32 +72,33 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
             resultSet = preparedStatement.executeQuery();
             /* Parcours des lignes de données retournée dans le ResultSet */      
         	while ( resultSet.next() ) {
-        		CommentaireTopo commentaireTopo =  map( resultSet );
-        		commentaireTopo.setUtilisateur( utilisateurDao.trouver( commentaireTopo.getIdUser() ) );
-        		commentaireTopo.setTopo( topoDao.trouver( utilisateurDao, commentaireTopo.getIdTopo() ) );
-        		commentairesTopo.add( commentaireTopo );
+        		CommentaireSecteur commentaireSecteur =  map( resultSet );
+        		commentaireSecteur.setUtilisateur( utilisateurDao.trouver( commentaireSecteur.getIdUser() ) );
+        		commentaireSecteur.setSite( siteDao.trouver( commentaireSecteur.getIdSite() ) );
+        		commentairesSecteur.add( commentaireSecteur );
         	}       
         } catch ( SQLException e ) {
             throw new DaoException( e );
         } finally {
             fermeturesSilencieuses( resultSet, preparedStatement, connexion );
         }
-        return commentairesTopo;
+        return commentairesSecteur;
     }
     
     /*
      * Simple méthode utilitaire permettant de faire la correspondance (le
      * mapping) entre une ligne issue de la table des commentaires (un
-     * ResultSet) et un bean CommmentaireTopo.
+     * ResultSet) et un bean CommmentaireSecteur.
      */
-    private static CommentaireTopo map( ResultSet resultSet ) throws SQLException {
-    	CommentaireTopo commentaireTopo = new CommentaireTopo();
-    	commentaireTopo.setDateCT( resultSet.getTimestamp( "datect" ) );
-    	commentaireTopo.setTexteCT( resultSet.getString( "textect" ) );
-    	commentaireTopo.setIdUser( resultSet.getLong( "iduser" ) );
-    	commentaireTopo.setIdTopo( resultSet.getLong( "idtopo" ) );
+    private static CommentaireSecteur map( ResultSet resultSet ) throws SQLException {
+    	CommentaireSecteur commentaireSecteur = new CommentaireSecteur();
+    	commentaireSecteur.setDateCSe( resultSet.getTimestamp( "datecse" ) );
+    	commentaireSecteur.setTexteCSe( resultSet.getString( "textecse" ) );
+    	commentaireSecteur.setIdUser( resultSet.getLong( "iduser" ) );
+    	commentaireSecteur.setNoSecteur( resultSet.getInt( "nosecteur" ) );
+    	commentaireSecteur.setIdSite( resultSet.getLong( "idsite" ) );
            
-        return commentaireTopo;
+        return commentaireSecteur;
     }
 
 }

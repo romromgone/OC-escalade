@@ -10,22 +10,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ocp3.beans.CommentaireTopo;
+import com.ocp3.beans.CommentaireSite;
 
 
-public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
-	private static final String SQL_INSERT = "INSERT INTO commentairetopo (datect, textect, iduser, idtopo) VALUES (?, ?, ?, ?)";
-	private static final String SQL_SELECT_PAR_TOPO = "SELECT cast (datect as timestamp(0)), textect, iduser, idtopo FROM commentairetopo WHERE idtopo = ? ORDER BY datect DESC";
+public class CommentaireSiteDaoImpl implements CommentaireSiteDao {
+	private static final String SQL_INSERT = "INSERT INTO commentairesite (datecsi, textecsi, iduser, idsite) VALUES (?, ?, ?, ?)";
+	private static final String SQL_SELECT_PAR_SITE = "SELECT cast (datecsi as timestamp(0)), textecsi, iduser, idsite FROM commentairesite WHERE idsite = ? ORDER BY datecsi DESC";
 
     private DaoFactory daoFactory;
 
-    CommentaireTopoDaoImpl(DaoFactory daoFactory) {
+    CommentaireSiteDaoImpl(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
     
-    /* Implémentation de la méthode définie dans l'interface CommentaireTopoDao */
+    /* Implémentation de la méthode définie dans l'interface CommentaireSiteDao */
     @Override
-    public void ajouter( CommentaireTopo commentaireTopo ) throws DaoException {
+    public void ajouter( CommentaireSite commentaireSite ) throws DaoException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
 
@@ -33,7 +33,7 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
         	/* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
             /* Préparation de la requête avec les objets passés en arguments et exécution */
-            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, false, commentaireTopo.getDateCT(), commentaireTopo.getTexteCT(), commentaireTopo.getIdUser(), commentaireTopo.getIdTopo() );
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, false, commentaireSite.getDateCSi(), commentaireSite.getTexteCSi(), commentaireSite.getIdUser(), commentaireSite.getIdSite() );
             int statut = preparedStatement.executeUpdate();
             /* Si échec */
             if ( statut == 0 ) {
@@ -46,10 +46,10 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
         }
     }
     
-    /* Implémentation de la méthode définie dans l'interface CommentaireTopoDao */
+    /* Implémentation de la méthode définie dans l'interface CommentaireSiteDao */
     @Override
-    public List<CommentaireTopo> lister( UtilisateurDao utilisateurDao, TopoDao topoDao, Long idTopo ) throws DaoException {
-    	return lister( utilisateurDao, topoDao, SQL_SELECT_PAR_TOPO, idTopo ); 	
+    public List<CommentaireSite> lister( UtilisateurDao utilisateurDao, SiteDao siteDao, Long idSite ) throws DaoException {
+    	return lister( utilisateurDao, siteDao, SQL_SELECT_PAR_SITE, idSite ); 	
     }
     
     
@@ -58,11 +58,11 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
      * de données, correspondant à la requête SQL donnée prenant en paramètres
      * les objets passés en argument.
      */
-    private List<CommentaireTopo> lister( UtilisateurDao utilisateurDao, TopoDao topoDao, String sql, Object... objets ) throws DaoException {
+    private List<CommentaireSite> lister( UtilisateurDao utilisateurDao, SiteDao siteDao, String sql, Object... objets ) throws DaoException {
     	Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        List<CommentaireTopo> commentairesTopo = new ArrayList<CommentaireTopo>();
+        List<CommentaireSite> commentairesSite = new ArrayList<CommentaireSite>();
 
         try {
             /* Récupération d'une connexion depuis la Factory */
@@ -72,32 +72,32 @@ public class CommentaireTopoDaoImpl implements CommentaireTopoDao {
             resultSet = preparedStatement.executeQuery();
             /* Parcours des lignes de données retournée dans le ResultSet */      
         	while ( resultSet.next() ) {
-        		CommentaireTopo commentaireTopo =  map( resultSet );
-        		commentaireTopo.setUtilisateur( utilisateurDao.trouver( commentaireTopo.getIdUser() ) );
-        		commentaireTopo.setTopo( topoDao.trouver( utilisateurDao, commentaireTopo.getIdTopo() ) );
-        		commentairesTopo.add( commentaireTopo );
+        		CommentaireSite commentaireSite =  map( resultSet );
+        		commentaireSite.setUtilisateur( utilisateurDao.trouver( commentaireSite.getIdUser() ) );
+        		commentaireSite.setSite( siteDao.trouver( commentaireSite.getIdSite() ) );
+        		commentairesSite.add( commentaireSite );
         	}       
         } catch ( SQLException e ) {
             throw new DaoException( e );
         } finally {
             fermeturesSilencieuses( resultSet, preparedStatement, connexion );
         }
-        return commentairesTopo;
+        return commentairesSite;
     }
     
     /*
      * Simple méthode utilitaire permettant de faire la correspondance (le
      * mapping) entre une ligne issue de la table des commentaires (un
-     * ResultSet) et un bean CommmentaireTopo.
+     * ResultSet) et un bean CommmentaireSite.
      */
-    private static CommentaireTopo map( ResultSet resultSet ) throws SQLException {
-    	CommentaireTopo commentaireTopo = new CommentaireTopo();
-    	commentaireTopo.setDateCT( resultSet.getTimestamp( "datect" ) );
-    	commentaireTopo.setTexteCT( resultSet.getString( "textect" ) );
-    	commentaireTopo.setIdUser( resultSet.getLong( "iduser" ) );
-    	commentaireTopo.setIdTopo( resultSet.getLong( "idtopo" ) );
+    private static CommentaireSite map( ResultSet resultSet ) throws SQLException {
+    	CommentaireSite commentaireSite = new CommentaireSite();
+    	commentaireSite.setDateCSi( resultSet.getTimestamp( "datecsi" ) );
+    	commentaireSite.setTexteCSi( resultSet.getString( "textecsi" ) );
+    	commentaireSite.setIdUser( resultSet.getLong( "iduser" ) );
+    	commentaireSite.setIdSite( resultSet.getLong( "idsite" ) );
            
-        return commentaireTopo;
+        return commentaireSite;
     }
 
 }

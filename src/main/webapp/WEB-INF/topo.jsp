@@ -18,7 +18,7 @@
     <main role="main" class="container">
     
     	<div class="offset-md-1 col-md-10">
-	      	<div class="card">
+	      	<div class="card" id="card" name="card">
 	  				<h6 class="card-header">Fiche du topo</h6>
 	  				<div class="card-body col-md-12">
 	  				
@@ -44,19 +44,58 @@
 									</div>
 								</div>
 							</form>
-							<form method="post" action="topo" id="formCouvre" name="formCouvre" novalidate>				
-		  					<div class="form-row">
-		  						<div class="col-auto">
-							  		<p class="lead">Ce topo couvre les sites suivant :</p>
-							  	</div>
-							  	<div class="col-auto">
-										<button class="btn btn-info btn-sm" id="btnAdd" data-toggle="modal" data-target="#modal">
-											<span class="fas fa-plus-circle" aria-hidden="true"></span>
-										</button>
-									</div>
-								</div>
-							</form>
 							
+	  					<div class="form-row">
+	  						<div class="col-auto">
+						  		<p class="lead">Ce topo couvre les sites suivant :</p>
+						  	</div>
+						  	<div class="col-auto">
+						  		<select class="form-control" id="inputSite" name="inputSite">
+									  <option selected></option>
+									  <c:forEach items="${sites}" var="site">
+									  	<option><c:out value="${site.nom}" /></option>
+									  </c:forEach>							  
+									</select>
+								</div>
+								<div class="col-auto">
+									<button class="btn btn-info btn-sm" id="btnAdd" data-toggle="modal" data-target="#modal">
+										<span class="fas fa-plus-circle" aria-hidden="true"></span>
+									</button>
+								</div>
+								<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="titreModal" aria-hidden="true">
+								  <div class="modal-dialog modal-dialog-centered" role="document">
+								    <div class="modal-content">						    
+								      <div class="modal-header">
+								        <h5 class="modal-title" id="titreModal">Ajout d'un site couvert par ce topo</h5>
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">&times;</span>
+								        </button>
+								      </div>
+								      <div class="modal-body">
+								      	<form method="post" action="topo" id="formSites" name="formSites" novalidate> 
+								  				<div class="form-group row">
+								    				<label class="col-md-4 col-form-label" for="departement">Département*</label>
+								    				<div class="col-md-8">
+								    					<input type="text" class="form-control" id="departement" name="departement" value="<c:out value="${topo.departement}"/>">
+								    				</div>
+								  				</div>
+								  				<div class="form-group row">
+								    				<label class="col-md-4 col-form-label" for="sites">Sites</label>
+							    					<select class="form-control" id="sites" name="sites">
+						 							 		<option selected></option>
+								 							<c:forEach items="${sites}" var="site">
+								  							<option><c:out value="${site.nom}" /></option>
+								  						</c:forEach>							  
+														</select>
+							    				</div>
+								  				<button type="submit" class="col-md-2 offset-md-10 btn btn-info" id="valider">Valider</button>							  				
+												</form>
+											</div>
+							      </div>						      					      
+							    </div>
+							  </div>
+							</div>								
+
 							<br />
 		  				<p class="lead">
 		  					Pour faire une demande de réservation, envoyer un mail à <mark>${topo.utilisateur.prenom} ${topo.utilisateur.nom} (${topo.utilisateur.codePostal}) : ${topo.utilisateur.mail}</mark>
@@ -89,14 +128,12 @@
 								  </tbody>
 								</table>
 							</div>
-							
+							</div>
 	  				</div>
+	  				
+	  				<%@ include file="commentairesTopo.jsp" %>
+	  				
 	  			</div>
-	  			
-	  			<%@ include file="commentairesTopo.jsp" %>
-	  			
-	  	</div>
-	  	
     </main>
     
     <script src="webjars/jquery/3.2.1/jquery.min.js"></script>

@@ -10,7 +10,7 @@ main {
   padding: 1rem 0rem;
 }
 
-.card {
+#card {
 	margin-bottom: 30px;
 }
 
@@ -43,7 +43,7 @@ label {
   width: 100%;
  }
  
- .lead {
+.lead {
   text-align: center;
  	font-size: 17px;
  }
